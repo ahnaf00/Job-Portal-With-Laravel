@@ -16,11 +16,24 @@ class RolePermissionController extends Controller
         try
         {
             $permissions = Permission::all();
+            return response()->json($permissions);
+        }
+        catch(Exception $exception)
+        {
             return response()->json(
                 [
-                    'error' => $permissions
+                    'error' => $exception->getMessage()
                 ]
             );
+        }
+    }
+
+    public function getAllRoles()
+    {
+        try
+        {
+            $roles = Role::all();
+            return response()->json($roles);
         }
         catch(Exception $exception)
         {

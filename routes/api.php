@@ -86,9 +86,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Role and Permission Management
     Route::middleware('role:super_admin|admin')->group(function () {
         Route::post('/roles', [RolePermissionController::class, 'createRole'])->name('createRole');
+        Route::get('/roles', [RolePermissionController::class,'getAllRoles'])->name('getAllRoles');
         Route::get('/roles/{role}/permissions', [RolePermissionController::class, 'getPermissionsByRole'])->name('getPermissionsByRole');
         Route::post('/roles/{role}/permissions', [RolePermissionController::class, 'assignPermissionsToRole'])->name('assignPermissionsToRole');
         Route::post('/permissions', [RolePermissionController::class, 'createPermission'])->name('createPermission');
+        Route::get('/permissions', [RolePermissionController::class, 'getAllPermissions'])->name('getallPermissions');
         Route::post('/users/{user}/roles', [RolePermissionController::class, 'assignRolesToUser'])->name('assignRolesToUser');
         Route::get('/users/{user}/roles', [RolePermissionController::class, 'getRolesByUser'])->name('getRolesByUser');
     });
