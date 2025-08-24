@@ -1,25 +1,102 @@
 <?php
 
-use App\Http\Controllers\Api\RolePermissionController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AllJobController;
+use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\CandidateController;
+use App\Http\Controllers\Api\JobCategoryController;
+use App\Http\Controllers\Api\JobApplicationController;
+use App\Http\Controllers\Api\RolePermissionController;
 
-Route::post('/register',[AuthController::class, 'register'])->name('register');
-Route::post('/login',[AuthController::class, 'login'])->name('login');
-Route::post('/logout',[AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
+// Route::post('/register',[AuthController::class, 'register'])->name('register');
+// Route::post('/login',[AuthController::class, 'login'])->name('login');
+// Route::post('/logout',[AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
 
-Route::middleware(['auth:sanctum','role:super-admin|admin'])->group(function(){
+// Route::middleware(['auth:sanctum','role:super-admin|admin'])->group(function(){
 
-    // Roles
-    Route::post('/roles',[RolePermissionController::class,'createRole'])->name('createRole');
-    Route::get('/roles/{role}/permissions',[RolePermissionController::class,'getPermissionsByRole'])->name('getPermissionsByRole');
-    Route::post('/roles/{role}/permissions',[RolePermissionController::class,'assignPermissionsToRole'])->name('assignPermissionsToRole');
+//     // Roles
+//     Route::post('/roles',[RolePermissionController::class,'createRole'])->name('createRole');
+//     Route::get('/roles/{role}/permissions',[RolePermissionController::class,'getPermissionsByRole'])->name('getPermissionsByRole');
+//     Route::post('/roles/{role}/permissions',[RolePermissionController::class,'assignPermissionsToRole'])->name('assignPermissionsToRole');
 
-    // Permissions
-    Route::post('/permissions',[RolePermissionController::class, 'createPermission'])->name('createPermission');
+//     // Permissions
+//     Route::post('/permissions',[RolePermissionController::class, 'createPermission'])->name('createPermission');
 
-    // User Role Assignments
-    Route::post('/users/{user}/roles',[RolePermissionController::class,'assignRolesToUser'])->name('assignRolesToUser');
-    Route::get('/users/{user}/roles',[RolePermissionController::class,'getRolesByUser'])->name('getRolesByUser');
+//     // User Role Assignments
+//     Route::post('/users/{user}/roles',[RolePermissionController::class,'assignRolesToUser'])->name('assignRolesToUser');
+//     Route::get('/users/{user}/roles',[RolePermissionController::class,'getRolesByUser'])->name('getRolesByUser');
+// });
+
+
+
+// Public routes
+// Route::post('/register', [AuthController::class, 'register'])->name('register');
+// Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// // Protected routes
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//     // Admin routes
+//     Route::middleware('role:super_admin')->group(function () {
+//         Route::apiResource('companies', CompanyController::class)->except(['store']);
+//         Route::apiResource('job-categories', JobCategoryController::class);
+//     });
+
+//     // Role and Permission Management
+//     Route::middleware('role:super_admin|admin')->group(function () {
+//         Route::post('/roles', [RolePermissionController::class, 'createRole'])->name('createRole');
+//         Route::get('/roles/{role}/permissions', [RolePermissionController::class, 'getPermissionsByRole'])->name('getPermissionsByRole');
+//         Route::post('/roles/{role}/permissions', [RolePermissionController::class, 'assignPermissionsToRole'])->name('assignPermissionsToRole');
+//         Route::post('/permissions', [RolePermissionController::class, 'createPermission'])->name('createPermission');
+//         Route::post('/users/{user}/roles', [RolePermissionController::class, 'assignRolesToUser'])->name('assignRolesToUser');
+//         Route::get('/users/{user}/roles', [RolePermissionController::class, 'getRolesByUser'])->name('getRolesByUser');
+//     });
+
+//     // General routes
+//     Route::apiResource('candidates', CandidateController::class)->except(['store']);
+//     Route::apiResource('jobs', AllJobController::class);
+//     Route::apiResource('job-applications', JobApplicationController::class);
+// });
+
+
+// Public routes
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/jobs', [AllJobController::class, 'index'])->name('jobs.index');
+Route::get('/jobs/{id}', [AllJobController::class, 'show'])->name('jobs.show');
+Route::get('/job-categories', [JobCategoryController::class, 'index'])->name('job-categories.index');
+Route::get('/job-categories/{id}', [JobCategoryController::class, 'show'])->name('job-categories.show');
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Admin routes
+    Route::middleware('role:super_admin')->group(function () {
+        Route::apiResource('companies', CompanyController::class)->except(['store']);
+        Route::post('/job-categories', [JobCategoryController::class, 'store'])->name('job-categories.store');
+        Route::put('/job-categories/{id}', [JobCategoryController::class, 'update'])->name('job-categories.update');
+        Route::patch('/job-categories/{id}', [JobCategoryController::class, 'update'])->name('job-categories.patch');
+        Route::delete('/job-categories/{id}', [JobCategoryController::class, 'destroy'])->name('job-categories.destroy');
+    });
+
+    // Role and Permission Management
+    Route::middleware('role:super_admin|admin')->group(function () {
+        Route::post('/roles', [RolePermissionController::class, 'createRole'])->name('createRole');
+        Route::get('/roles/{role}/permissions', [RolePermissionController::class, 'getPermissionsByRole'])->name('getPermissionsByRole');
+        Route::post('/roles/{role}/permissions', [RolePermissionController::class, 'assignPermissionsToRole'])->name('assignPermissionsToRole');
+        Route::post('/permissions', [RolePermissionController::class, 'createPermission'])->name('createPermission');
+        Route::post('/users/{user}/roles', [RolePermissionController::class, 'assignRolesToUser'])->name('assignRolesToUser');
+        Route::get('/users/{user}/roles', [RolePermissionController::class, 'getRolesByUser'])->name('getRolesByUser');
+    });
+
+    // General routes
+    Route::apiResource('candidates', CandidateController::class)->except(['store']);
+    Route::post('/jobs', [AllJobController::class, 'store'])->name('jobs.store');
+    Route::put('/jobs/{id}', [AllJobController::class, 'update'])->name('jobs.update');
+    Route::delete('/jobs/{id}', [AllJobController::class, 'destroy'])->name('jobs.destroy');
+    Route::apiResource('job-applications', JobApplicationController::class);
 });

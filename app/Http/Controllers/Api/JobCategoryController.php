@@ -2,64 +2,78 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\JobCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Exception;
 
 class JobCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return response()->json(JobCategory::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show(Request $request, $id)
     {
-        //
+        return response()->json(JobCategory::findOrFail($id));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try
+        {
+            if (!$request->user()->hasRole('super_admin')) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255|unique:job_categories',
+            ]);
+
+            $category = JobCategory::create([
+                'name' => $validated['name'],
+                'slug' => Str::slug($validated['name']),
+            ]);
+
+            return response()->json($category, 201);
+        }
+        catch(Exception $exception)
+        {
+            return response()->json(
+                [
+                    'error' => $exception->getMessage()
+                ]
+            );
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        if (!$request->user()->hasRole('super_admin')) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $category = JobCategory::findOrFail($id);
+        $validated = $request->validate([
+            'name' => 'string|max:255|unique:job_categories,name,' . $id,
+        ]);
+
+        $category->update([
+            'name' => $validated['name'],
+            'slug' => Str::slug($validated['name']),
+        ]);
+
+        return response()->json($category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if (!$request->user()->hasRole('super_admin')) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+        JobCategory::findOrFail($id)->delete();
+        return response()->json(['message' => 'Category deleted']);
     }
 }

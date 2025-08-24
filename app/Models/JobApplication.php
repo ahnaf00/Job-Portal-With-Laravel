@@ -16,8 +16,14 @@ class JobApplication extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function alljob()
+    public function job()
     {
-        return $this->belongsTo(AllJob::class);
+        return $this->belongsTo(AllJob::class, 'job_id');
+    }
+
+    public function applied()
+
+    {
+        return $this->belongsTo(Candidate::class);
     }
 }
