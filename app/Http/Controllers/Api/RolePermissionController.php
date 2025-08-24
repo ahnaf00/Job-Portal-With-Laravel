@@ -11,6 +11,27 @@ use Spatie\Permission\Models\Permission;
 
 class RolePermissionController extends Controller
 {
+    public function getAllPermissions()
+    {
+        try
+        {
+            $permissions = Permission::all();
+            return response()->json(
+                [
+                    'error' => $permissions
+                ]
+            );
+        }
+        catch(Exception $exception)
+        {
+            return response()->json(
+                [
+                    'error' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
     // Create a new role
     public function createRole(Request $request)
     {

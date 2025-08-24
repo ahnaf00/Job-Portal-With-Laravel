@@ -31,7 +31,7 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 - Secure API endpoints with middleware for authentication and authorization.
 
 ## Tech Stack
-- **Framework**: Laravel 10.x
+- **Framework**: Laravel 12
 - **Authentication**: Laravel Sanctum
 - **Authorization**: Spatie Laravel Permission
 - **Database**: MySQL (or any Laravel-supported database)
