@@ -136,6 +136,8 @@ The API uses Laravel Sanctum for token-based authentication. Users must register
 #### POST /api/register
 Register a new user (company or candidate).
 - **Request Body**:
+
+  For a user/candidate
   ```json
   {
       "name": "John Doe",
@@ -147,19 +149,7 @@ Register a new user (company or candidate).
       "last_name": "Doe"
   }
   ```
-  For company:
-  ```json
-  {
-      "name": "Company User",
-      "email": "company@example.com",
-      "password": "password123",
-      "password_confirmation": "password123",
-      "role": "company",
-      "company_name": "Example Corp",
-      "address": "123 Street",
-      "website": "https://example.com"
-  }
-  ```
+
 - **Response (201)**:
   ```json
   {
@@ -187,6 +177,50 @@ Register a new user (company or candidate).
           ]
       }
   }
+  ```
+
+  For company:
+  ```json
+  {
+      "name": "Company User",
+      "email": "company@example.com",
+      "password": "password123",
+      "password_confirmation": "password123",
+      "role": "company",
+      "company_name": "Example Corp",
+      "address": "123 Street",
+      "website": "https://example.com"
+  }
+  ```
+
+  - **Response (201)**:
+  ```json
+    {
+        "message": "User registered successfully",
+        "access_token": "1|plaintexttokenhere",
+        "token_type": "Bearer",
+        "user": {
+            "name": "Company User",
+            "email": "newcompany@gmail.com",
+            "updated_at": "2025-08-24T16:25:53.000000Z",
+            "created_at": "2025-08-24T16:25:53.000000Z",
+            "id": 13,
+            "roles": [
+                {
+                    "id": 6,
+                    "name": "company",
+                    "guard_name": "api",
+                    "created_at": "2025-08-05T15:22:21.000000Z",
+                    "updated_at": "2025-08-05T18:26:25.000000Z",
+                    "pivot": {
+                        "model_type": "App\\Models\\User",
+                        "model_id": 13,
+                        "role_id": 6
+                    }
+                }
+            ]
+        }
+    }
   ```
 
 #### POST /api/login
@@ -262,6 +296,36 @@ Create a role (requires `super_admin` or `admin`).
   }
   ```
 
+#### GET /api/roles
+Get All Roles (requires `super_admin` or `admin`).
+- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
+- **Response (201)**:
+  ```json
+    [
+        {
+            "id": 1,
+            "name": "super_admin",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:50:25.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        },
+        {
+            "id": 2,
+            "name": "admin",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:50:25.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        },
+        {
+            "id": 3,
+            "name": "staff",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:50:25.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        }
+    ]
+  ```
+
 #### POST /api/permissions
 Create a permission (requires `super_admin` or `admin`).
 - **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
@@ -283,6 +347,36 @@ Create a permission (requires `super_admin` or `admin`).
           "updated_at": "2025-08-24T22:12:00.000000Z"
       }
   }
+  ```
+
+#### GET /api/permissions
+Get All Permissions (requires `super_admin` or `admin`).
+- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
+- **Response (201)**:
+  ```json
+    [
+        {
+            "id": 1,
+            "name": "user-list",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:52:07.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        },
+        {
+            "id": 2,
+            "name": "user-create",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:52:07.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        },
+        {
+            "id": 5,
+            "name": "role-list",
+            "guard_name": "api",
+            "created_at": "2025-08-05T12:52:07.000000Z",
+            "updated_at": "2025-08-05T18:26:25.000000Z"
+        }
+    ]
   ```
 
 #### GET /api/roles/{role}/permissions
@@ -810,109 +904,6 @@ Delete a job application (requires `super_admin` or candidate who applied).
       "message": "Application deleted"
   }
   ```
-
-<!-- ### Roles and Permissions
-
-#### POST /api/roles
-Create a role (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Request Body**:
-  ```json
-  {
-      "name": "super_admin"
-  }
-  ```
-- **Response (201)**:
-  ```json
-  {
-      "message": "Role created successfully",
-      "role": {
-          "id": 1,
-          "name": "super_admin",
-          "guard_name": "api",
-          "created_at": "2025-08-24T22:12:00.000000Z",
-          "updated_at": "2025-08-24T22:12:00.000000Z"
-      }
-  }
-  ```
-
-#### POST /api/permissions
-Create a permission (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Request Body**:
-  ```json
-  {
-      "name": "manage_jobs"
-  }
-  ```
-- **Response (201)**:
-  ```json
-  {
-      "message": "Permissions created successfully",
-      "permissions": {
-          "id": 1,
-          "name": "manage_jobs",
-          "guard_name": "api",
-          "created_at": "2025-08-24T22:12:00.000000Z",
-          "updated_at": "2025-08-24T22:12:00.000000Z"
-      }
-  }
-  ```
-
-#### GET /api/roles/{role}/permissions
-List permissions for a role (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Response (200)**:
-  ```json
-  {
-      "message": "success",
-      "allpermissions": [
-          "manage_jobs"
-      ]
-  }
-  ```
-
-#### POST /api/roles/{role}/permissions
-Assign permissions to a role (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Request Body**:
-  ```json
-  {
-      "permissions": ["manage_jobs"]
-  }
-  ```
-- **Response (200)**:
-  ```json
-  {
-      "message": "Permissions assigned to role"
-  }
-  ```
-
-#### POST /api/users/{user}/roles
-Assign roles to a user (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Request Body**:
-  ```json
-  {
-      "roles": ["company"]
-  }
-  ```
-- **Response (200)**:
-  ```json
-  {
-      "message": "Roles assigned to user"
-  }
-  ```
-
-#### GET /api/users/{user}/roles
-List roles for a user (requires `super_admin` or `admin`).
-- **Headers**: `Authorization: Bearer {super_admin_token_or_admin_token}`
-- **Response (200)**:
-  ```json
-  [
-      "company"
-  ]
-  ``` -->
 
 ## Testing with Postman
 1. **Set Up Postman**:
