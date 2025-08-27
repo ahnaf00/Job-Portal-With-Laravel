@@ -42,7 +42,7 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/job-portal-api.git
+   git clone https://github.com/ahnaf00/Job-Portal-With-Laravel.git
    cd job-portal-api
    ```
 
