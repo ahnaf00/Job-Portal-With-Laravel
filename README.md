@@ -77,19 +77,32 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
    ```bash
    php artisan migrate
    ```
-
 6. **Seed Roles**
-   Seed the necessary roles (`super_admin`, `company`, `candidate`) with the `api` guard:
-   ```php
-   use Spatie\Permission\Models\Role;
 
-   Role::create(['name' => 'super_admin', 'guard_name' => 'api']);
-   Role::create(['name' => 'company', 'guard_name' => 'api']);
-   Role::create(['name' => 'candidate', 'guard_name' => 'api']);
-   ```
    Run the seeder:
    ```bash
-   php artisan db:seed
+   pphp artisan db:seed --class=RoleSeeder
+   ```
+
+7. **Seed Permissions**
+
+   Run the seeder:
+   ```bash
+   pphp artisan db:seed --class=PermissionSeeder
+   ```
+
+8. **Seed Users**
+
+   Run the seeder:
+   ```bash
+   pphp artisan db:seed --class=UserSeeder
+   ```
+
+9. **Seed Admin**
+
+   Run the seeder:
+   ```bash
+   pphp artisan db:seed --class=AdminSeeder
    ```
 
 7. **Install Sanctum**
