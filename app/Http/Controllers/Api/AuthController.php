@@ -16,6 +16,16 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function registerView()
+    {
+        return view('frontend.pages.authentication.registration');
+    }
+
+    public function loginView()
+    {
+        return view('frontend.pages.authentication.login');
+    }
+
     public function register(Request $request)
     {
         try
@@ -122,5 +132,28 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logout successful']);
+    }
+
+    /**
+     * Get the current authenticated user's profile with roles
+     */
+    public function profile(Request $request)
+    {
+        try {
+            $user = $request->user()->load('roles');
+            
+            // Get role names for easier frontend checking
+            $roleNames = $user->getRoleNames()->toArray();
+            
+            return response()->json([
+                'user' => $user,
+                'roles' => $roleNames,
+                'permissions' => $user->getAllPermissions()->pluck('name')->toArray()
+            ], 200);
+        } catch (Exception $exception) {
+            return response()->json([
+                'error' => $exception->getMessage()
+            ], 500);
+        }
     }
 }

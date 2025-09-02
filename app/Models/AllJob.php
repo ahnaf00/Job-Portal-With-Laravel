@@ -18,7 +18,7 @@ class AllJob extends Model
 
     public function jobCategory()
     {
-        return $this->belongsTo(JobCategory::class);
+        return $this->belongsTo(JobCategory::class, 'category_id');
     }
 
     public function jobApplications()

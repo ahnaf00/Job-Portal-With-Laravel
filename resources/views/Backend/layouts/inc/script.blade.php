@@ -1,28 +1,64 @@
 <!--   Core JS Files   -->
-  <script src="{{ 'Backend/assets' }}/js/core/popper.min.js"></script>
-  <script src="{{ 'Backend/assets' }}/js/core/bootstrap.min.js"></script>
-  <script src="{{ 'Backend/assets' }}/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="{{ 'Backend/assets' }}/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="{{ asset('Backend/assets/js/core/popper.min.js') }}"></script>
+  <script src="{{ asset('Backend/assets/js/core/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('Backend/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('Backend/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <!-- Kanban scripts -->
-  <script src="{{ 'Backend/assets' }}/js/plugins/dragula/dragula.min.js"></script>
-  <script src="{{ 'Backend/assets' }}/js/plugins/jkanban/jkanban.js"></script>
-  <script src="{{ 'Backend/assets' }}/js/plugins/chartjs.min.js"></script>
+  <script src="{{ asset('Backend/assets/js/plugins/dragula/dragula.min.js') }}"></script>
+  <script src="{{ asset('Backend/assets/js/plugins/jkanban/jkanban.js') }}"></script>
+  <script src="{{ asset('Backend/assets/js/plugins/chartjs.min.js') }}"></script>
+  
+  <!-- Role-based Authentication Utility -->
+  <script src="{{ asset('Backend/assets/js/role-based-auth.js') }}"></script>
+  
   <script>
-    var ctx1 = document.getElementById("chart-line").getContext("2d");
-    var ctx2 = document.getElementById("chart-pie").getContext("2d");
-    var ctx3 = document.getElementById("chart-bar").getContext("2d");
+    // Global showMessage function for all pages
+    function showMessage(message, type = 'success') {
+        // Create toast/alert if it doesn't exist
+        let messageContainer = document.getElementById('globalMessageContainer');
+        if (!messageContainer) {
+            messageContainer = document.createElement('div');
+            messageContainer.id = 'globalMessageContainer';
+            messageContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
+            document.body.appendChild(messageContainer);
+        }
+        
+        const alertClass = type === 'error' ? 'alert-danger' : 'alert-success';
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        
+        messageContainer.innerHTML = alertHtml;
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            const alertElement = messageContainer.querySelector('.alert');
+            if (alertElement) {
+                alertElement.remove();
+            }
+        }, 5000);
+    }
+    
+    var ctx1 = document.getElementById("chart-line")?.getContext("2d");
+    var ctx2 = document.getElementById("chart-pie")?.getContext("2d");
+    var ctx3 = document.getElementById("chart-bar")?.getContext("2d");
 
-    var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+    // Only render charts if elements exist
+    if (ctx1) {
+        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke1.addColorStop(1, 'rgba(94, 114, 228,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(94, 114, 228,0)'); //purple colors
+        gradientStroke1.addColorStop(1, 'rgba(94, 114, 228,0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228,0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(94, 114, 228,0)'); //purple colors
 
-    var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
+        var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+        gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+        gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
     // Line chart
     new Chart(ctx1, {
@@ -101,9 +137,11 @@
         },
       },
     });
+    } // End ctx1 conditional
 
 
     // Pie chart
+    if (ctx2) {
     new Chart(ctx2, {
       type: "pie",
       data: {
@@ -158,8 +196,10 @@
         },
       },
     });
+    } // End ctx2 conditional
 
     // Bar chart
+    if (ctx3) {
     new Chart(ctx3, {
       type: "bar",
       data: {
@@ -214,6 +254,7 @@
         },
       },
     });
+    } // End ctx3 conditional
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -227,4 +268,4 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ 'Backend/assets' }}/js/argon-dashboard.min.js?v=2.1.0"></script>
+  <script src="{{ asset('Backend/assets/js/argon-dashboard.min.js') }}?v=2.1.0"></script>

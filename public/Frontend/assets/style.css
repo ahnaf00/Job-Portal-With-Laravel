@@ -1,0 +1,173 @@
+/* Custom CSS Variables */
+:root {
+    --primary-color: #5156be;
+    --primary-hover-color: #40459a;
+    --secondary-color: #f28a2c;
+    --tertiary-color: #495057;
+    --light-gray: #f8f9fa;
+}
+
+/* Main body styles */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--tertiary-color);
+    background-color: var(--light-gray);
+}
+
+/* Custom Colors */
+.text-primary { color: var(--primary-color) !important; }
+.bg-primary { background-color: var(--primary-color) !important; }
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+}
+.text-secondary { color: var(--secondary-color) !important; }
+.bg-secondary-subtle { background-color: #fcf4ec !important; }
+
+/* Custom Bootstrap overrides */
+.rounded-4 {
+    border-radius: 1.5rem !important;
+}
+
+.rounded-5 {
+    border-radius: 2.5rem !important;
+}
+
+/* Header & Navbar */
+.logo span:first-child {
+    color: var(--primary-color);
+}
+.logo span:last-child {
+    color: var(--tertiary-color);
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--light-gray);
+}
+
+.search-box {
+    border: 1px solid #e9ecef;
+}
+
+.search-box .form-control,
+.search-box .form-select,
+.search-box .input-group-text {
+    background-color: transparent !important;
+}
+
+/* Categories & Featured Jobs */
+.card-hover:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.job-card {
+    transition: transform 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.company-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* How It Works Section */
+.bg-light-gray {
+    background-color: var(--light-gray);
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2ff;
+}
+
+/* Mobile App Section */
+.phone-img-1 {
+    width: 300px;
+    height: 600px;
+    object-fit: cover;
+    z-index: 2;
+}
+
+.phone-img-2 {
+    width: 300px;
+    height: 600px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(25%, -50%);
+    z-index: 1;
+}
+
+.store-badge {
+    height: 50px;
+    width: 150px;
+    object-fit: contain;
+}
+
+@media (max-width: 991.98px) {
+    .phone-img-2 {
+        display: none;
+    }
+}
+
+/* Testimonial Section */
+.testimonial-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* Footer */
+footer a.text-muted:hover {
+    color: #fff !important;
+}
+
+.social-icons a {
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Authentication Page Styles */
+.auth-card {
+    max-width: 500px;
+}
+
+.nav-pills .nav-link {
+    background-color: #e9ecef;
+    color: var(--tertiary-color);
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

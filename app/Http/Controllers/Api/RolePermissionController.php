@@ -45,6 +45,23 @@ class RolePermissionController extends Controller
         }
     }
 
+    public function getAllUsers()
+    {
+        try
+        {
+            $users = User::with('roles')->get();
+            return response()->json($users);
+        }
+        catch(Exception $exception)
+        {
+            return response()->json(
+                [
+                    'error' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
     // Create a new role
     public function createRole(Request $request)
     {
@@ -53,7 +70,10 @@ class RolePermissionController extends Controller
             $request->validate([
                 'name' => 'required|unique:roles,name'
             ]);
-            $role = Role::create(['name'=>$request->name]);
+            $role = Role::create([
+                'name' => $request->name,
+                'guard_name' => 'api'
+            ]);
             return response()->json(
                 [
                     'message'   => 'Role created successfuly',
@@ -106,7 +126,8 @@ class RolePermissionController extends Controller
             'name'=> 'required|unique:permissions,name'
         ]);
         $permission = Permission::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => 'api'
         ]);
         return response()->json([
             'message'       => 'Permissions created successfully',
@@ -114,7 +135,7 @@ class RolePermissionController extends Controller
         ],201);
     }
 
-    // Assign Roles to a user
+    // Assign Roles to a user (adds roles without removing existing ones)
     public function assignRolesToUser(Request $request, User $user)
     {
         try{
@@ -124,7 +145,8 @@ class RolePermissionController extends Controller
             $user->assignRole($request->roles);
 
             return response()->json([
-                'message' => 'Roles assigned to user'
+                'message' => 'Roles assigned to user successfully',
+                'user' => $user->load('roles')
             ],200);
         }
         catch(Exception $exception)
@@ -135,10 +157,50 @@ class RolePermissionController extends Controller
         }
     }
 
-    // List roles for a user
+    // Update user roles (replaces all existing roles with new ones)
+    public function updateUserRoles(Request $request, User $user)
+    {
+        try{
+            $request->validate([
+                'roles' => 'required|array'
+            ]);
+            
+            // syncRoles will remove all existing roles and assign the new ones
+            $user->syncRoles($request->roles);
+
+            return response()->json([
+                'message' => 'User roles updated successfully',
+                'user' => $user->load('roles')
+            ],200);
+        }
+        catch(Exception $exception)
+        {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ],401);
+        }
+    }
+
+    // List roles for a user with detailed information
     public function getRolesByUser(User $user)
     {
-        return response()->json($user->getRoleNames(),200);
+        try {
+            $userWithRoles = $user->load('roles');
+            return response()->json([
+                'message' => 'User roles retrieved successfully',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email
+                ],
+                'roles' => $userWithRoles->roles,
+                'role_names' => $userWithRoles->getRoleNames()
+            ], 200);
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 500);
+        }
     }
 
 

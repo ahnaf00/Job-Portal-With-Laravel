@@ -12,825 +12,252 @@
     </div>
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item">
+        <!-- Loading State -->
+        <div id="sidebar-loading" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-sm mt-2">Loading navigation...</p>
+        </div>
+
+        <ul class="navbar-nav" id="sidebar-nav" style="display: none;">
+            <!-- Roles Section - Only for Super Admin -->
+            <li class="nav-item" id="roles-section">
                 <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link "
                     aria-controls="dashboardsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-shop text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Dashboards</span>
+                    <span class="nav-link-text ms-1">Roles</span>
                 </a>
                 <div class="collapse " id="dashboardsExamples">
                     <ul class="nav ms-4">
                         <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/dashboards/landing.html">
+                            <a class="nav-link " href="{{ route('getAllRoles') }}">
                                 <span class="sidenav-mini-icon"> L </span>
-                                <span class="sidenav-normal"> Landing </span>
+                                <span class="sidenav-normal"> All Roles </span>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/dashboards/default.html">
-                                <span class="sidenav-mini-icon"> D </span>
-                                <span class="sidenav-normal"> Default </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/dashboards/automotive.html">
-                                <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> Automotive </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/dashboards/smart-home.html">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Smart Home </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/dashboards/crm.html">
+                            <a class="nav-link" href="{{ route('createRoleView') }}">
                                 <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> CRM </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">PAGES</h6>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link " aria-controls="pagesExamples"
-                    role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-ungroup text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Pages</span>
-                </a>
-                <div class="collapse " id="pagesExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
-                                <span class="sidenav-mini-icon"> V </span>
-                                <span class="sidenav-normal"> Virtual Reality <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="vrExamples">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/pages/vr/vr-default.html">
-                                            <span class="sidenav-mini-icon text-xs"> V </span>
-                                            <span class="sidenav-normal"> VR Default </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/pages/vr/vr-info.html">
-                                            <span class="sidenav-mini-icon text-xs"> V </span>
-                                            <span class="sidenav-normal"> VR Info </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/pricing-page.html">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Pricing Page </span>
+                                <span class="sidenav-normal"> Create Role </span>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/rtl-page.html">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> RTL </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/widgets.html">
-                                <span class="sidenav-mini-icon"> W </span>
-                                <span class="sidenav-normal"> Widgets </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/charts.html">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Charts </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/sweet-alerts.html">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Sweet Alerts </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/pages/notifications.html">
-                                <span class="sidenav-mini-icon"> N </span>
-                                <span class="sidenav-normal"> Notifications </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link "
-                    aria-controls="accountExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-settings-gear-65 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Account</span>
-                </a>
-                <div class="collapse " id="accountExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/account/settings.html">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Settings </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/account/billing.html">
-                                <span class="sidenav-mini-icon"> B </span>
-                                <span class="sidenav-normal"> Billing </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/account/invoice.html">
-                                <span class="sidenav-mini-icon"> I </span>
-                                <span class="sidenav-normal"> Invoice </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/account/security.html">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Security </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link "
-                    aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-ui-04 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Applications</span>
-                </a>
-                <div class="collapse " id="applicationsExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/applications/kanban.html">
-                                <span class="sidenav-mini-icon"> K </span>
-                                <span class="sidenav-normal"> Kanban </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/applications/wizard.html">
-                                <span class="sidenav-mini-icon"> W </span>
-                                <span class="sidenav-normal"> Wizard </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/applications/datatables.html">
-                                <span class="sidenav-mini-icon"> D </span>
-                                <span class="sidenav-normal"> DataTables </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/applications/calendar.html">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Calendar </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/applications/analytics.html">
+                            <a class="nav-link" href="{{ route('assignPermissionsView') }}">
                                 <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> Analytics </span>
+                                <span class="sidenav-normal"> Assign Permissions </span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link active"
-                    aria-controls="ecommerceExamples" role="button" aria-expanded="false">
+            
+            <!-- Permissions Section - Only for Super Admin -->
+            <li class="nav-item" id="permissions-section">
+                <a data-bs-toggle="collapse" href="#permissionsExamples" class="nav-link"
+                    aria-controls="permissionsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-archive-2 text-dark text-sm opacity-10"></i>
+                        <i class="ni ni-key-25 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Ecommerce</span>
+                    <span class="nav-link-text ms-1">Permissions</span>
                 </a>
-                <div class="collapse  show " id="ecommerceExamples">
+                <div class="collapse" id="permissionsExamples">
                     <ul class="nav ms-4">
-                        <li class="nav-item active">
-                            <a class="nav-link active" href="../../pages/ecommerce/overview.html">
-                                <span class="sidenav-mini-icon"> O </span>
-                                <span class="sidenav-normal"> Overview </span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('getAllPermissions') }}">
+                                <span class="sidenav-mini-icon"> L </span>
+                                <span class="sidenav-normal"> All Permissions </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#productsExample">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Products <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="productsExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/products/new-product.html">
-                                            <span class="sidenav-mini-icon text-xs"> N </span>
-                                            <span class="sidenav-normal"> New Product </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/products/edit-product.html">
-                                            <span class="sidenav-mini-icon text-xs"> E </span>
-                                            <span class="sidenav-normal"> Edit Product </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/products/product-page.html">
-                                            <span class="sidenav-mini-icon text-xs"> P </span>
-                                            <span class="sidenav-normal"> Product Page </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/products/products-list.html">
-                                            <span class="sidenav-mini-icon text-xs"> P </span>
-                                            <span class="sidenav-normal"> Products List </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#ordersExample">
-                                <span class="sidenav-mini-icon"> O </span>
-                                <span class="sidenav-normal"> Orders <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="ordersExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/orders/list.html">
-                                            <span class="sidenav-mini-icon text-xs"> O </span>
-                                            <span class="sidenav-normal"> Order List </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/ecommerce/orders/details.html">
-                                            <span class="sidenav-mini-icon text-xs"> O </span>
-                                            <span class="sidenav-normal"> Order Details </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/ecommerce/referral.html">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> Referral </span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('createPermissionView') }}">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Create Permission </span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#teamExamples" class="nav-link " aria-controls="teamExamples"
-                    role="button" aria-expanded="false">
+            
+            <!-- RBAC Management Section - Only for Super Admin -->
+            <li class="nav-item" id="rbac-section">
+                <a data-bs-toggle="collapse" href="#rbacManagement" class="nav-link"
+                    aria-controls="rbacManagement" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
+                        <i class="ni ni-circle-08 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Team</span>
+                    <span class="nav-link-text ms-1">RBAC Management</span>
                 </a>
-                <div class="collapse " id="teamExamples">
+                <div class="collapse" id="rbacManagement">
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/team/projects.html">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('assignPermissionsView') }}">
                                 <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> All Projects </span>
+                                <span class="sidenav-normal"> Assign Permissions </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/team/teams.html">
-                                <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Teams </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/team/new-user.html">
-                                <span class="sidenav-mini-icon"> N </span>
-                                <span class="sidenav-normal"> New User </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/team/overview.html">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Profile Overview </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/team/reports.html">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> Reports </span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('assignRolesView') }}">
+                                <span class="sidenav-mini-icon"> U </span>
+                                <span class="sidenav-normal"> Assign Roles to Users </span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link "
-                    aria-controls="projectsExamples" role="button" aria-expanded="false">
+            
+            <!-- Company Management Section - Only for Super Admin -->
+            <li class="nav-item" id="company-management-section">
+                <a data-bs-toggle="collapse" href="#companyManagement" class="nav-link"
+                    aria-controls="companyManagement" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-building text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Projects</span>
+                    <span class="nav-link-text ms-1">Company Management</span>
                 </a>
-                <div class="collapse " id="projectsExamples">
+                <div class="collapse" id="companyManagement">
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/projects/general.html">
-                                <span class="sidenav-mini-icon"> G </span>
-                                <span class="sidenav-normal"> General </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/projects/timeline.html">
-                                <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Timeline </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="../../pages/projects/new-project.html">
-                                <span class="sidenav-mini-icon"> N </span>
-                                <span class="sidenav-normal"> New Project </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#authExamples" class="nav-link " aria-controls="authExamples"
-                    role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Authentication</span>
-                </a>
-                <div class="collapse " id="authExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#signinExample">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Sign In <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="signinExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/signin/basic.html">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Basic </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/signin/cover.html">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Cover </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/signin/illustration.html">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Illustration </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#signupExample">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Sign Up <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="signupExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/signup/basic.html">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Basic </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/signup/cover.html">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Cover </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/signup/illustration.html">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Illustration </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#resetExample">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> Reset Password <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="resetExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/reset/basic.html">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Basic </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/reset/cover.html">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Cover </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/reset/illustration.html">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Illustration </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#lockExample">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('getAllCompanies') }}">
                                 <span class="sidenav-mini-icon"> L </span>
-                                <span class="sidenav-normal"> Lock <b class="caret"></b></span>
+                                <span class="sidenav-normal"> All Companies </span>
                             </a>
-                            <div class="collapse " id="lockExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/lock/basic.html">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Basic </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/lock/cover.html">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Cover </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/lock/illustration.html">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Illustration </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#StepExample">
-                                <span class="sidenav-mini-icon"> 2 </span>
-                                <span class="sidenav-normal"> 2-Step Verification <b class="caret"></b></span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('getPendingCompanies') }}">
+                                <span class="sidenav-mini-icon"> P </span>
+                                <span class="sidenav-normal"> Pending Verification </span>
                             </a>
-                            <div class="collapse " id="StepExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/verification/basic.html">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Basic </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/verification/cover.html">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Cover </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="../../pages/authentication/verification/illustration.html">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Illustration </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#errorExample">
-                                <span class="sidenav-mini-icon"> E </span>
-                                <span class="sidenav-normal"> Error <b class="caret"></b></span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('getVerifiedCompanies') }}">
+                                <span class="sidenav-mini-icon"> V </span>
+                                <span class="sidenav-normal"> Verified Companies </span>
                             </a>
-                            <div class="collapse " id="errorExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/error/404.html">
-                                            <span class="sidenav-mini-icon text-xs"> E </span>
-                                            <span class="sidenav-normal"> Error 404 </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="../../pages/authentication/error/500.html">
-                                            <span class="sidenav-mini-icon text-xs"> E </span>
-                                            <span class="sidenav-normal"> Error 500 </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <hr class="horizontal dark" />
-                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">DOCS</h6>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#basicExamples" class="nav-link " aria-controls="basicExamples"
-                    role="button" aria-expanded="false">
+            
+            <!-- Job Management Section - For Company and Super Admin -->
+            <li class="nav-item" id="job-management-section">
+                <a data-bs-toggle="collapse" href="#jobManagement" class="nav-link"
+                    aria-controls="jobManagement" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-spaceship text-dark text-sm"></i>
+                        <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Basic</span>
+                    <span class="nav-link-text ms-1">Job Management</span>
                 </a>
-                <div class="collapse " id="basicExamples">
+                <div class="collapse" id="jobManagement">
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#gettingStartedExample">
-                                <span class="sidenav-mini-icon"> G </span>
-                                <span class="sidenav-normal"> Getting Started <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="gettingStartedExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/quick-start/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> Q </span>
-                                            <span class="sidenav-normal"> Quick Start </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> L </span>
-                                            <span class="sidenav-normal"> License </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/overview/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Contents </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/build-tools/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> B </span>
-                                            <span class="sidenav-normal"> Build Tools </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#foundationExample">
-                                <span class="sidenav-mini-icon"> F </span>
-                                <span class="sidenav-normal"> Foundation <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="foundationExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/colors/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> C </span>
-                                            <span class="sidenav-normal"> Colors </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/grid/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> G </span>
-                                            <span class="sidenav-normal"> Grid </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/typography/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> T </span>
-                                            <span class="sidenav-normal"> Typography </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link "
-                                            href="https://www.creative-tim.com/learning-lab/bootstrap/icons/argon-dashboard"
-                                            target="_blank">
-                                            <span class="sidenav-mini-icon text-xs"> I </span>
-                                            <span class="sidenav-normal"> Icons </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#componentsExamples" class="nav-link "
-                    aria-controls="componentsExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Components</span>
-                </a>
-                <div class="collapse " id="componentsExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/alerts/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> Alerts </span>
+                        <li class="nav-item" id="all-jobs-item">
+                            <a class="nav-link" href="{{ route('getAllJobs') }}">
+                                <span class="sidenav-mini-icon"> L </span>
+                                <span class="sidenav-normal"> All Jobs </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/badge/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> B </span>
-                                <span class="sidenav-normal"> Badge </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> B </span>
-                                <span class="sidenav-normal"> Buttons </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/cards/argon-dashboard"
-                                target="_blank">
+                        <li class="nav-item" id="create-job-item">
+                            <a class="nav-link" href="{{ route('createJobView') }}">
                                 <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Card </span>
+                                <span class="sidenav-normal"> Create Job </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/carousel/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Carousel </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/collapse/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Collapse </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/dropdowns/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> D </span>
-                                <span class="sidenav-normal"> Dropdowns </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/forms/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> F </span>
-                                <span class="sidenav-normal"> Forms </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/modal/argon-dashboard"
-                                target="_blank">
+                        <li class="nav-item" id="my-jobs-item">
+                            <a class="nav-link" href="{{ route('getMyJobs') }}">
                                 <span class="sidenav-mini-icon"> M </span>
-                                <span class="sidenav-normal"> Modal </span>
+                                <span class="sidenav-normal"> My Jobs </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/navs/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> N </span>
-                                <span class="sidenav-normal"> Navs </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/navbar/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> N </span>
-                                <span class="sidenav-normal"> Navbar </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/pagination/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Pagination </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/popovers/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Popovers </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/progress/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Progress </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/spinners/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Spinners </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/tables/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Tables </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link "
-                                href="https://www.creative-tim.com/learning-lab/bootstrap/tooltips/argon-dashboard"
-                                target="_blank">
-                                <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Tooltips </span>
+                        <li class="nav-item" id="draft-jobs-item">
+                            <a class="nav-link" href="{{ route('getDraftJobs') }}">
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Draft Jobs </span>
                             </a>
                         </li>
                     </ul>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"
-                    href="https://github.com/creativetimofficial/ct-argon-dashboard-pro/blob/main/CHANGELOG.md"
-                    target="_blank">
-                    <div
-                        class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-align-left-2 text-dark text-sm"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Changelog</span>
-                </a>
             </li>
         </ul>
     </div>
-    <div class="sidenav-footer mx-3 my-3">
-        <div class="card card-plain shadow-none" id="sidenavCard">
-            <img class="w-60 mx-auto" src="../../assets/img/illustrations/icon-documentation.svg"
-                alt="sidebar_illustration">
-            <div class="card-body text-center p-3 w-100 pt-0">
-                <div class="docs-info">
-                    <h6 class="mb-0">Need help?</h6>
-                    <p class="text-xs font-weight-bold mb-0">Please check our docs</p>
-                </div>
-            </div>
-        </div>
-        <a href="https://www.creative-tim.com/learning-lab/bootstrap/overview/argon-dashboard" target="_blank"
-            class="btn btn-dark btn-sm w-100 mb-3">Documentation</a>
-    </div>
+
+    <!-- Role-based Navigation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initRoleBasedNavigation();
+        });
+
+        async function initRoleBasedNavigation() {
+            try {
+                // Use the role-based-auth.js utility function
+                const userProfile = await initRoleBasedAuth();
+                if (userProfile) {
+                    setupNavigationBasedOnRole(userProfile.roles);
+                } else {
+                    // Redirect to login if no user profile
+                    window.location.href = "{{ route('loginView') }}";
+                }
+            } catch (error) {
+                console.error('Failed to load user profile:', error);
+                // Hide navigation and show error
+                document.getElementById('sidebar-loading').innerHTML = 
+                    '<p class="text-danger text-sm">Failed to load navigation</p>';
+            }
+        }
+
+        function setupNavigationBasedOnRole(userRoles) {
+            // Hide loading and show navigation
+            document.getElementById('sidebar-loading').style.display = 'none';
+            document.getElementById('sidebar-nav').style.display = 'block';
+
+            const isSuperAdmin = userRoles.includes('super_admin');
+            const isCompany = userRoles.includes('company');
+            const isCandidate = userRoles.includes('candidate');
+
+            // Role/Permission sections - Only for Super Admin
+            const roleSections = [
+                'roles-section',
+                'permissions-section', 
+                'rbac-section',
+                'company-management-section'
+            ];
+            
+            roleSections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.style.display = isSuperAdmin ? 'block' : 'none';
+                }
+            });
+
+            // Job Management section - For Company and Super Admin
+            const jobManagementSection = document.getElementById('job-management-section');
+            if (jobManagementSection) {
+                if (isSuperAdmin || isCompany) {
+                    jobManagementSection.style.display = 'block';
+                    
+                    // Within job management, "All Jobs" is only for super admin
+                    const allJobsItem = document.getElementById('all-jobs-item');
+                    if (allJobsItem) {
+                        allJobsItem.style.display = isSuperAdmin ? 'block' : 'none';
+                    }
+                    
+                    // Company-specific job items
+                    const companyJobItems = ['create-job-item', 'my-jobs-item', 'draft-jobs-item'];
+                    companyJobItems.forEach(itemId => {
+                        const item = document.getElementById(itemId);
+                        if (item) {
+                            item.style.display = (isCompany || isSuperAdmin) ? 'block' : 'none';
+                        }
+                    });
+                } else {
+                    jobManagementSection.style.display = 'none';
+                }
+            }
+
+            // Note: User info is already stored globally by role-based-auth.js
+            // and utility functions are available globally
+        }
+    </script>
+
 </aside>

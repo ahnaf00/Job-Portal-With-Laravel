@@ -9,6 +9,7 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 - [Database Schema](#database-schema)
 - [Authentication](#authentication)
 - [Roles and Permissions](#roles-and-permissions)
+- [Dashboard and Frontend](#dashboard-and-frontend)
 - [API Endpoints](#api-endpoints)
   - [Authentication](#authentication-1)
   - [Candidates](#candidates)
@@ -23,20 +24,27 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 
 ## Features
 - User registration and login with Sanctum token-based authentication.
+- **Role-based dashboard access control** with dynamic navigation based on user roles.
+- **Interactive web dashboard** with Blade templates for managing resources.
 - Role-based access control (`super_admin`, `company`, `candidate`) using Spatie Laravel Permission.
 - Companies can post and manage jobs (requires verification).
 - Candidates can update their profiles and apply for jobs.
 - Super admins can manage companies, job categories, and roles/permissions.
 - Public access to published jobs and job categories.
 - Secure API endpoints with middleware for authentication and authorization.
+- **User-friendly logout** that redirects to homepage instead of login page.
+- **Real-time navigation updates** based on user authentication state.
 
 ## Tech Stack
 - **Framework**: Laravel 12
 - **Authentication**: Laravel Sanctum
 - **Authorization**: Spatie Laravel Permission
+- **Frontend**: Blade Templates with Bootstrap/Argon Dashboard Theme
 - **Database**: MySQL (or any Laravel-supported database)
-- **PHP**: 8.1+
+- **PHP**: 8.2+
 - **Composer**: For dependency management
+- **Build Tool**: Vite (for frontend assets)
+- **CSS Framework**: Bootstrap with Argon Dashboard styling
 
 ## Installation
 
@@ -49,6 +57,7 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 2. **Install Dependencies**
    ```bash
    composer install
+   npm install
    ```
 
 3. **Set Up Environment**
@@ -81,42 +90,49 @@ A Laravel-based REST API for a job portal, allowing companies to post jobs, cand
 
    Run the seeder:
    ```bash
-   pphp artisan db:seed --class=RoleSeeder
+   php artisan db:seed --class=RoleSeeder
    ```
 
 7. **Seed Permissions**
 
    Run the seeder:
    ```bash
-   pphp artisan db:seed --class=PermissionSeeder
+   php artisan db:seed --class=PermissionSeeder
    ```
 
 8. **Seed Users**
 
    Run the seeder:
    ```bash
-   pphp artisan db:seed --class=UserSeeder
+   php artisan db:seed --class=UserSeeder
    ```
 
 9. **Seed Admin**
 
    Run the seeder:
    ```bash
-   pphp artisan db:seed --class=AdminSeeder
+   php artisan db:seed --class=AdminSeeder
    ```
 
-7. **Install Sanctum**
+10. **Install Sanctum**
    Ensure Sanctum is set up:
    ```bash
    php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
    php artisan migrate
    ```
 
-8. **Start the Server**
+11. **Build Frontend Assets**
+   ```bash
+   npm run build
+   ```
+
+12. **Start the Server**
    ```bash
    php artisan serve
    ```
-   The API will be available at `http://localhost:8000/api`.
+   - The API will be available at `http://localhost:8000/api`
+   - The dashboard will be available at `http://localhost:8000/dashboard`
+   - The homepage will be available at `http://localhost:8000/`
 
 ## Database Schema
 The database consists of the following tables:
@@ -140,7 +156,52 @@ The API uses Laravel Sanctum for token-based authentication. Users must register
 - **super_admin**: Can manage all resources (companies, job categories, roles, permissions).
 - **company**: Can post/update jobs (if verified), manage own company profile, and view/update job applications for their jobs.
 - **candidate**: Can update own profile and apply for jobs.
-- Permissions are managed via Spatie’s Laravel Permission package with the `api` guard.
+- Permissions are managed via Spatie's Laravel Permission package with the `api` guard.
+
+## Dashboard and Frontend
+
+### Role-Based Dashboard Access
+The application includes a comprehensive web dashboard with role-based access control:
+
+- **Super Admin Dashboard**: Full access to all sections including:
+  - Roles and Permissions Management
+  - Company Management (verification, listing)
+  - Job Management (all jobs, categories)
+  - RBAC Management (assign roles/permissions)
+  \n- **Company Dashboard**: Limited access to:
+  - Job Management (create, edit, manage own jobs)
+  - Company Profile Management
+  - Job Applications for their jobs
+  \n- **Candidate Dashboard**: Basic access to:
+  - Profile Management
+  - Job Applications
+  - Browse Available Jobs
+
+### Dashboard Features
+- **Dynamic Navigation**: Sidebar and navbar adapt based on user role
+- **User Profile Display**: Shows user name, email, and roles in navbar
+- **Real-time Authentication**: Automatic logout handling and session management
+- **Responsive Design**: Bootstrap-based Argon Dashboard theme
+- **Loading States**: Proper loading indicators during authentication checks
+- **Role-based Redirects**: Logout redirects to homepage for better UX
+
+### Available Routes
+- **Homepage**: `/` - Public homepage
+- **Dashboard**: `/dashboard` - Main dashboard (requires authentication)
+- **Login**: `/loginView` - User login page
+- **Register**: `/registerView` - User registration page
+- **Role Demo**: `/role-demo` - Interactive demo of role-based features
+
+### Access the Dashboard
+1. Register or login through the API or web interface
+2. Navigate to `http://localhost:8000/dashboard`
+3. The interface will automatically adapt based on your user role
+4. Use the logout button to return to the homepage
+
+### Additional Documentation
+For detailed information about the role-based access control system, see:
+- `ROLE_BASED_ACCESS_CONTROL.md` - Comprehensive guide to the RBAC implementation
+- `/role-demo` - Interactive demo page showing role-based features in action
 
 ## API Endpoints
 
@@ -281,6 +342,24 @@ Log out and revoke the token.
   ```json
   {
       "message": "Logged out successfully"
+  }
+  ```
+
+#### GET /api/profile
+Get current user profile with roles and permissions (for dashboard authentication).
+- **Headers**: `Authorization: Bearer {token}`
+- **Response (200)**:
+  ```json
+  {
+      "user": {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "created_at": "2025-08-24T22:12:00.000000Z",
+          "updated_at": "2025-08-24T22:12:00.000000Z"
+      },
+      "roles": ["candidate"],
+      "permissions": ["view_jobs", "apply_for_jobs"]
   }
   ```
 

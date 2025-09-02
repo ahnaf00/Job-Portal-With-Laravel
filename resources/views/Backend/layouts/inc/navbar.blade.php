@@ -31,13 +31,79 @@
                 </div>
             </div>
             <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-flex align-items-center">
-                    <a href="../../pages/authentication/signin/illustration.html"
-                        class="nav-link text-white font-weight-bold px-0" target="_blank">
+                <!-- User Profile Dropdown -->
+                <li class="nav-item dropdown pe-2 d-flex align-items-center" id="user-profile-dropdown" style="display: none;">
+                    <a href="javascript:;" class="nav-link text-white p-0 d-flex align-items-center" id="userProfileButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="avatar avatar-sm bg-gradient-primary me-2">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="d-flex flex-column text-start" id="user-info">
+                            <span class="font-weight-bold" id="user-display-name">Loading...</span>
+                            <small class="opacity-7" id="user-display-role">Loading...</small>
+                        </div>
+                        <i class="fa fa-chevron-down ms-2"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="userProfileButton">
+                        <li class="mb-2">
+                            <div class="dropdown-item-text border-radius-md">
+                                <div class="d-flex py-1">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="text-sm font-weight-normal mb-1">
+                                            <span class="font-weight-bold" id="dropdown-user-name">User Name</span>
+                                        </h6>
+                                        <p class="text-xs text-secondary mb-0" id="dropdown-user-email">
+                                            user@example.com
+                                        </p>
+                                        <div class="mt-1">
+                                            <span class="badge badge-sm bg-gradient-primary" id="dropdown-user-roles">
+                                                Role
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="#" onclick="viewProfile()">
+                                <i class="fa fa-user me-2"></i>
+                                View Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="#" onclick="editProfile()">
+                                <i class="fa fa-edit me-2"></i>
+                                Edit Profile
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item border-radius-md text-danger" href="#" onclick="logoutUser()">
+                                <i class="fa fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <!-- Loading State -->
+                <li class="nav-item d-flex align-items-center" id="navbar-loading">
+                    <div class="spinner-border spinner-border-sm text-white me-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="text-white">Loading...</span>
+                </li>
+                
+                <!-- Fallback Sign In (shown if not authenticated) -->
+                <li class="nav-item d-flex align-items-center" id="signin-fallback" style="display: none;">
+                    <a href="{{ route('loginView') }}"
+                        class="nav-link text-white font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none">Sign In</span>
                     </a>
                 </li>
+                
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
@@ -139,3 +205,100 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Initialize navbar user profile on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Short delay to ensure role-based-auth.js is loaded
+        setTimeout(initNavbarUserProfile, 100);
+        
+        // Listen for user profile loaded event from sidebar
+        window.addEventListener('userProfileLoaded', function(event) {
+            updateNavbarUserProfile(event.detail);
+        });
+    });
+
+    async function initNavbarUserProfile() {
+        try {
+            // Check if we already have user data from role-based-auth.js
+            if (window.currentUser) {
+                updateNavbarUserProfile(window.currentUser);
+                return;
+            }
+            
+            // If no current user, try to get profile
+            const profile = await getCurrentUserProfile();
+            if (profile) {
+                updateNavbarUserProfile({
+                    user: profile.user,
+                    roles: profile.roles
+                });
+            } else {
+                showSignInFallback();
+            }
+        } catch (error) {
+            console.error('Failed to load navbar user profile:', error);
+            showSignInFallback();
+        }
+    }
+
+    function updateNavbarUserProfile(userInfo) {
+        // Hide loading state
+        document.getElementById('navbar-loading').style.display = 'none';
+        
+        // Hide signin fallback
+        document.getElementById('signin-fallback').style.display = 'none';
+        
+        // Show user profile dropdown
+        document.getElementById('user-profile-dropdown').style.display = 'flex';
+        
+        // Update user display name and role
+        document.getElementById('user-display-name').textContent = userInfo.user.name;
+        document.getElementById('user-display-role').textContent = userInfo.roles.join(', ');
+        
+        // Update dropdown details
+        document.getElementById('dropdown-user-name').textContent = userInfo.user.name;
+        document.getElementById('dropdown-user-email').textContent = userInfo.user.email;
+        document.getElementById('dropdown-user-roles').textContent = userInfo.roles.join(', ');
+    }
+
+    function showSignInFallback() {
+        document.getElementById('navbar-loading').style.display = 'none';
+        document.getElementById('user-profile-dropdown').style.display = 'none';
+        document.getElementById('signin-fallback').style.display = 'flex';
+    }
+
+    function viewProfile() {
+        // Navigate to profile view page
+        showMessage('Profile view functionality coming soon!', 'info');
+    }
+
+    function editProfile() {
+        // Navigate to profile edit page
+        showMessage('Profile edit functionality coming soon!', 'info');
+    }
+    
+    // Helper function to show messages
+    function showMessage(message, type = 'info') {
+        const alertType = type === 'error' ? 'danger' : type;
+        const alertHtml = `
+            <div class="alert alert-${alertType} alert-dismissible fade show position-fixed" 
+                 style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', alertHtml);
+        
+        // Auto dismiss after 3 seconds
+        setTimeout(() => {
+            const alert = document.querySelector('.alert:last-of-type');
+            if (alert) {
+                alert.remove();
+            }
+        }, 3000);
+    }
+
+    // Note: logoutUser() is already defined in role-based-auth.js
+</script>

@@ -15,7 +15,11 @@ class AllJobController extends Controller
     {
         try
         {
-            return response()->json(data: AllJob::where('is_published', true)->get());
+            $jobs = AllJob::with(['company', 'jobCategory'])
+                ->where('is_published', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            return response()->json($jobs);
         }
         catch(Exception $exception)
         {
@@ -29,7 +33,7 @@ class AllJobController extends Controller
 
     public function show(Request $request, $id)
     {
-        $job = AllJob::findOrFail($id);
+        $job = AllJob::with(['company', 'jobCategory', 'jobApplications'])->findOrFail($id);
         if (!$job->is_published && !$request->user()->hasRole('super_admin') && $request->user()->company?->id !== $job->company_id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
@@ -65,7 +69,8 @@ class AllJobController extends Controller
                 'slug' => Str::slug($validated['title']),
             ]));
 
-            return response()->json($job, 201);
+            // Return job with relationships for frontend
+            return response()->json($job->load(['company', 'jobCategory']), 201);
         }
         catch(Exception $exception)
         {
@@ -98,12 +103,20 @@ class AllJobController extends Controller
                 'is_published'  => 'boolean',
             ]);
 
+            // Check if company is trying to publish a job without verification
+            if (isset($validated['is_published']) && $validated['is_published'] === true) {
+                if ($request->user()->hasRole('company') && !$request->user()->company->is_verified) {
+                    return response()->json(['error' => 'Company must be verified to publish jobs'], 403);
+                }
+            }
+
             if (isset($validated['title'])) {
                 $validated['slug'] = Str::slug($validated['title']);
             }
 
             $job->update($validated);
-            return response()->json($job);
+            // Return job with relationships for frontend
+            return response()->json($job->load(['company', 'jobCategory']));
         }
         catch(Exception $exception)
         {
@@ -123,5 +136,154 @@ class AllJobController extends Controller
         }
         $job->delete();
         return response()->json(['message' => 'Job deleted']);
+    }
+
+    /**
+     * Get all jobs for admin view
+     */
+    public function adminIndex(Request $request)
+    {
+        if (!$request->user()->hasRole('super_admin')) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+        
+        try {
+            $jobs = AllJob::with(['company', 'jobCategory'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+            return response()->json($jobs);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * Get jobs for the authenticated company
+     */
+    public function myJobs(Request $request)
+    {
+        if (!$request->user()->hasAnyRole(['company', 'super_admin'])) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        try {
+            $companyId = $request->user()->company?->id;
+            if (!$companyId && !$request->user()->hasRole('super_admin')) {
+                return response()->json(['error' => 'No company associated with user'], 404);
+            }
+
+            $query = AllJob::with(['company', 'jobCategory', 'jobApplications']);
+            
+            if (!$request->user()->hasRole('super_admin')) {
+                $query->where('company_id', $companyId);
+            }
+
+            $jobs = $query->orderBy('created_at', 'desc')->get();
+            return response()->json($jobs);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * Get draft jobs (unpublished) for the authenticated company
+     */
+    public function draftJobs(Request $request)
+    {
+        if (!$request->user()->hasAnyRole(['company', 'super_admin'])) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        try {
+            $companyId = $request->user()->company?->id;
+            if (!$companyId && !$request->user()->hasRole('super_admin')) {
+                return response()->json(['error' => 'No company associated with user'], 404);
+            }
+
+            $query = AllJob::with(['company', 'jobCategory'])
+                ->where('is_published', false);
+            
+            if (!$request->user()->hasRole('super_admin')) {
+                $query->where('company_id', $companyId);
+            }
+
+            $jobs = $query->orderBy('created_at', 'desc')->get();
+            return response()->json($jobs);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * Publish a job
+     */
+    public function publish(Request $request, $id)
+    {
+        try {
+            $job = AllJob::findOrFail($id);
+            
+            if (!$request->user()->hasRole('super_admin') && $request->user()->company?->id !== $job->company_id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($request->user()->hasRole('company') && !$request->user()->company->is_verified) {
+                return response()->json(['error' => 'Company must be verified to publish jobs'], 403);
+            }
+
+            $job->update(['is_published' => true]);
+            
+            return response()->json([
+                'message' => 'Job published successfully',
+                'job' => $job->load(['company', 'jobCategory'])
+            ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Unpublish a job
+     */
+    public function unpublish(Request $request, $id)
+    {
+        try {
+            $job = AllJob::findOrFail($id);
+            
+            if (!$request->user()->hasRole('super_admin') && $request->user()->company?->id !== $job->company_id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $job->update(['is_published' => false]);
+            
+            return response()->json([
+                'message' => 'Job unpublished successfully',
+                'job' => $job->load(['company', 'jobCategory'])
+            ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Toggle featured status of a job
+     */
+    public function toggleFeatured(Request $request, $id)
+    {
+        try {
+            $job = AllJob::findOrFail($id);
+            
+            if (!$request->user()->hasRole('super_admin') && $request->user()->company?->id !== $job->company_id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $job->update(['is_featured' => !$job->is_featured]);
+            
+            return response()->json([
+                'message' => $job->is_featured ? 'Job marked as featured' : 'Job unmarked as featured',
+                'job' => $job->load(['company', 'jobCategory'])
+            ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
     }
 }
