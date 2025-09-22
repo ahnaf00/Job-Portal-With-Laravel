@@ -132,7 +132,7 @@ function isCandidate() {
  * Redirect to login page
  */
 function redirectToLogin() {
-    window.location.href = "/login";
+    window.location.href = "/loginView";
 }
 
 /**
@@ -332,6 +332,7 @@ window.getUserEmail = getUserEmail;
 window.getUserRolesString = getUserRolesString;
 window.setupRoleBasedVisibility = setupRoleBasedVisibility;
 window.redirectToHomepage = redirectToHomepage;
+window.redirectToLogin = redirectToLogin;
 
 // Auto-initialize on DOM load if not already initialized
 document.addEventListener('DOMContentLoaded', function() {

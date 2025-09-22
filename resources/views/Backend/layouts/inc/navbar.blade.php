@@ -86,15 +86,15 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <!-- Loading State -->
-                <li class="nav-item d-flex align-items-center" id="navbar-loading">
+                {{-- <li class="nav-item d-flex align-items-center" id="navbar-loading">
                     <div class="spinner-border spinner-border-sm text-white me-2" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <span class="text-white">Loading...</span>
-                </li>
-                
+                </li> --}}
+
                 <!-- Fallback Sign In (shown if not authenticated) -->
                 <li class="nav-item d-flex align-items-center" id="signin-fallback" style="display: none;">
                     <a href="{{ route('loginView') }}"
@@ -103,7 +103,7 @@
                         <span class="d-sm-inline d-none">Sign In</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
@@ -211,7 +211,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Short delay to ensure role-based-auth.js is loaded
         setTimeout(initNavbarUserProfile, 100);
-        
+
         // Listen for user profile loaded event from sidebar
         window.addEventListener('userProfileLoaded', function(event) {
             updateNavbarUserProfile(event.detail);
@@ -225,7 +225,7 @@
                 updateNavbarUserProfile(window.currentUser);
                 return;
             }
-            
+
             // If no current user, try to get profile
             const profile = await getCurrentUserProfile();
             if (profile) {
@@ -245,21 +245,21 @@
     function updateNavbarUserProfile(userInfo) {
         // Hide loading state
         document.getElementById('navbar-loading').style.display = 'none';
-        
+
         // Hide signin fallback
         document.getElementById('signin-fallback').style.display = 'none';
-        
+
         // Show user profile dropdown
         document.getElementById('user-profile-dropdown').style.display = 'flex';
-        
+
         // Update user display name and role
         document.getElementById('user-display-name').textContent = userInfo.user.name;
         document.getElementById('user-display-role').textContent = userInfo.roles.join(', ');
-        
+
         // Update dropdown details
-        document.getElementById('dropdown-user-name').textContent = userInfo.user.name;
-        document.getElementById('dropdown-user-email').textContent = userInfo.user.email;
-        document.getElementById('dropdown-user-roles').textContent = userInfo.roles.join(', ');
+        document.getElementById('dropdown-user-name').textContent   = userInfo.user.name;
+        document.getElementById('dropdown-user-email').textContent  = userInfo.user.email;
+        document.getElementById('dropdown-user-roles').textContent  = userInfo.roles.join(', ');
     }
 
     function showSignInFallback() {
@@ -277,20 +277,20 @@
         // Navigate to profile edit page
         showMessage('Profile edit functionality coming soon!', 'info');
     }
-    
+
     // Helper function to show messages
     function showMessage(message, type = 'info') {
         const alertType = type === 'error' ? 'danger' : type;
         const alertHtml = `
-            <div class="alert alert-${alertType} alert-dismissible fade show position-fixed" 
+            <div class="alert alert-${alertType} alert-dismissible fade show position-fixed"
                  style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;" role="alert">
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         `;
-        
+
         document.body.insertAdjacentHTML('beforeend', alertHtml);
-        
+
         // Auto dismiss after 3 seconds
         setTimeout(() => {
             const alert = document.querySelector('.alert:last-of-type');

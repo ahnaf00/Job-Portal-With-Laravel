@@ -109,14 +109,46 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            try {
-                const profile = await initRoleBasedAuth();
-                if (profile) {
-                    setupDashboard(profile);
+            let retryCount = 0;
+            const maxRetries = 3;
+            
+            async function initializeDashboard() {
+                try {
+                    // Check if token exists first
+                    const token = localStorage.getItem('access_token');
+                    if (!token) {
+                        console.log('No token found, redirecting to login');
+                        window.location.href = '/loginView';
+                        return;
+                    }
+                    
+                    // Try to get user profile
+                    const profile = await getCurrentUserProfile();
+                    if (profile) {
+                        setCurrentUser(profile);
+                        setupDashboard(profile);
+                        console.log('Dashboard initialized successfully for:', profile.user.name);
+                    } else {
+                        throw new Error('Failed to get user profile');
+                    }
+                } catch (error) {
+                    console.error('Dashboard initialization error (attempt ' + (retryCount + 1) + '):', error);
+                    retryCount++;
+                    
+                    if (retryCount < maxRetries) {
+                        console.log('Retrying dashboard initialization in 1 second...');
+                        setTimeout(initializeDashboard, 1000);
+                    } else {
+                        console.error('Max retries reached. Token may be invalid.');
+                        localStorage.removeItem('access_token');
+                        alert('Session expired. Please login again.');
+                        window.location.href = '/loginView';
+                    }
                 }
-            } catch (error) {
-                console.error('Dashboard initialization error:', error);
             }
+            
+            // Start initialization
+            initializeDashboard();
         });
 
         function setupDashboard(profile) {
