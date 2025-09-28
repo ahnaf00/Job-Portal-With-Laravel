@@ -7,10 +7,10 @@
   <script src="{{ asset('Backend/assets/js/plugins/dragula/dragula.min.js') }}"></script>
   <script src="{{ asset('Backend/assets/js/plugins/jkanban/jkanban.js') }}"></script>
   <script src="{{ asset('Backend/assets/js/plugins/chartjs.min.js') }}"></script>
-  
+
   <!-- Role-based Authentication Utility -->
-  <script src="{{ asset('Backend/assets/js/role-based-auth.js') }}"></script>
-  
+  {{-- <script src="{{ asset('Backend/assets/js/role-based-auth.js') }}"></script> --}}
+
   <script>
     // Global showMessage function for all pages
     function showMessage(message, type = 'success') {
@@ -22,7 +22,7 @@
             messageContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
             document.body.appendChild(messageContainer);
         }
-        
+
         const alertClass = type === 'error' ? 'alert-danger' : 'alert-success';
         const alertHtml = `
             <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
@@ -30,9 +30,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         `;
-        
+
         messageContainer.innerHTML = alertHtml;
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => {
             const alertElement = messageContainer.querySelector('.alert');
@@ -41,7 +41,7 @@
             }
         }, 5000);
     }
-    
+
     var ctx1 = document.getElementById("chart-line")?.getContext("2d");
     var ctx2 = document.getElementById("chart-pie")?.getContext("2d");
     var ctx3 = document.getElementById("chart-bar")?.getContext("2d");

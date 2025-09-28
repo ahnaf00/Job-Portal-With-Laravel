@@ -16,15 +16,6 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function registerView()
-    {
-        return view('frontend.pages.authentication.registration');
-    }
-
-    public function loginView()
-    {
-        return view('frontend.pages.authentication.login');
-    }
 
     public function register(Request $request)
     {
@@ -141,10 +132,10 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user()->load('roles');
-            
+
             // Get role names for easier frontend checking
             $roleNames = $user->getRoleNames()->toArray();
-            
+
             return response()->json([
                 'user' => $user,
                 'roles' => $roleNames,
