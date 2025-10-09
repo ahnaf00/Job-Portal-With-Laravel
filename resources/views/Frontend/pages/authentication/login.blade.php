@@ -11,32 +11,34 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="login-form" role="tabpanel" aria-labelledby="login-tab">
-                    <form id="loginForm">
+                    {{-- Form starts --}}
+                    <form id="loginForm" method="POST" action="{{ route('login') }}">
+                        @csrf
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email address</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                                <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com"
-                                    required>
-                                <div class="invalid-feedback" id="emailError">
-                                    Please enter a valid email address.
-                                </div>
+                                <input type="email" class="form-control" id="loginEmail" name="email" placeholder="name@example.com" required>
+                                @error('email')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <label for="loginPassword" class="form-label">Password</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
-                                    required>
-                                <div class="invalid-feedback" id="passwordError">
-                                    Please enter your password.
-                                </div>
+                                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter password" required>
+                                @error('password')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
+
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                                <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                                 <label class="form-check-label" for="rememberMe">
                                     Remember me
                                 </label>
@@ -45,6 +47,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Log in</button>
                     </form>
+                    {{-- Form Ends --}}
                     <div class="text-center mt-4">
                         <p class="text-muted mb-0">Or log in with</p>
                         <div class="d-flex justify-content-center gap-2 mt-2">
@@ -66,75 +69,5 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const emailInput    = document.getElementById('loginEmail');
-            const passwordInput = document.getElementById('loginPassword');
-            const emailError    = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            const rememberMe    = document.getElementById('rememberMe').checked;
-
-            // Reset validation states
-            emailInput.classList.remove('is-invalid');
-            passwordInput.classList.remove('is-invalid');
-            emailError.textContent = 'Please enter a valid email address.';
-            passwordError.textContent = 'Please enter your password.';
-
-            let isValid = true;
-
-            // Client-side validation
-            if (!emailInput.value) {
-                emailInput.classList.add('is-invalid');
-                isValid = false;
-            }
-            if (!passwordInput.value) {
-                passwordInput.classList.add('is-invalid');
-                isValid = false;
-            }
-
-            if (!isValid) return;
-
-            const data = {
-                email: emailInput.value,
-                password: passwordInput.value
-            };
-
-            try {
-                const response = await fetch('http://127.0.0.1:8000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Store token
-                    localStorage.setItem('access_token', result.access_token);
-                    alert(result.message || 'Login successful!');
-                    window.location.href = '/dashboard';
-                } else {
-                    // Display API error
-                    if (result.message.includes('email')) {
-                        emailInput.classList.add('is-invalid');
-                        emailError.textContent = result.message || 'Invalid email address.';
-                    } else if (result.message.includes('password')) {
-                        passwordInput.classList.add('is-invalid');
-                        passwordError.textContent = result.message || 'Invalid password.';
-                    } else {
-                        alert(result.message || 'Login failed.');
-                    }
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred during login. Please try again.');
-            }
-        });
-    </script>
 @endsection
 

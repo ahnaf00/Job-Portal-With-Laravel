@@ -9,6 +9,10 @@ class DashboardController extends Controller
 
     public function dashboardPage()
     {
+        // $user = auth()->user();
+        // $userRoles = $user ? $user->getRoleNames() : collect();
+
+        // return view('backend.pages.dashboard', compact('user', 'userRoles'));
        return view('backend.pages.dashboard');
     }
 

@@ -132,7 +132,7 @@ function isCandidate() {
  * Redirect to login page
  */
 function redirectToLogin() {
-    window.location.href = "/login";
+    window.location.href = "/loginView";
 }
 
 /**

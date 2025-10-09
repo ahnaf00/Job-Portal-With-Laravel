@@ -28,80 +28,24 @@
                         </thead>
                         <tbody id="rolesBody">
                             <!-- Roles will be dynamically inserted here -->
+                            @foreach ($roles as $role)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $role->name }}</td>
+                                    <td>
+                                        {{-- <button class="btn btn-sm btn-primary" onclick="editRole(${role.id})">Edit</button> --}}
+                                        <a href="{{ route('editRoleView',$role->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteRole(${role.id})">Delete</button>
+
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-    async function fetchRoles() {
-        const token = localStorage.getItem('access_token');
-        const tbody = document.getElementById('rolesBody');
-
-        if (!token) {
-            showMessage('You are not authenticated. Please log in.');
-            window.location.href = "{{ route('loginView') }}"; // Redirect to login page
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Please log in to view roles.</td></tr>';
-            return;
-        }
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/roles', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    showMessage('Session expired. Please log in again.');
-                    localStorage.removeItem('access_token');
-                    window.location.href = "{{ route('loginView') }}";
-                    return;
-                }
-                if (response.status === 404) {
-                    showMessage('Roles endpoint not found. Please check the API configuration.');
-                    tbody.innerHTML = '<tr><td colspan="3" class="text-center">Roles endpoint not available.</td></tr>';
-                    return;
-                }
-                throw new Error(`Failed to fetch roles: ${response.status} ${response.statusText}`);
-            }
-
-            const roles = await response.json();
-            tbody.innerHTML = '';
-
-            if (!Array.isArray(roles) || roles.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="text-center">No roles found.</td></tr>';
-                return;
-            }
-
-            roles.forEach((role, index) => {
-                const row = `
-                    <tr>
-                        <th scope="row">${index + 1}</th>
-                        <td>${role.name}</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" onclick="editRole(${role.id})">Edit</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteRole(${role.id})">Delete</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        } catch (error) {
-            console.error('Error fetching roles:', error);
-            showMessage('Failed to load roles. Please try again.');
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Error loading roles.</td></tr>';
-        }
-    }
-
-    // Fetch roles when the page loads
-    document.addEventListener('DOMContentLoaded', fetchRoles);
-    </script>
 @endsection
 
 

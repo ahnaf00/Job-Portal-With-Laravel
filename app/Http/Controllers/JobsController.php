@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllJob;
+use App\Models\JobCategory;
+use Hamcrest\Core\AllOf;
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
 {
-    public function jobsPage()
-    {
-        return view('frontend.pages.jobs');
-    }
+    // public function jobsPage()
+    // {
+    //     return view('frontend.pages.jobs');
+    // }
     /**
      * Display a listing of the resource.
      */
@@ -53,16 +56,15 @@ class JobsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function jobsByCategory($id)
     {
-        //
+        $category = JobCategory::findOrFail($id);
+        $jobs = AllJob::where('category_id',$id)->get();
+        return view('frontend.pages.jobs',compact('category', 'jobs'));
     }
 }
